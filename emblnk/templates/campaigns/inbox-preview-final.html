@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .inbox {
+            max-width: 620px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .message {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+            filter: blur(1px);
+        }
+
+        .message div {
+            font-weight: 600;
+        }
+
+        #inbox-preview {
+            filter: none !important;
+        }
+
+        .message:last-child {
+            border-bottom: none;
+        }
+
+        .sender {
+            font-weight: bold;
+        }
+
+        .subject {
+            color: #333;
+        }
+
+        .preloader {
+            font-size: 14px;
+            color: #999;
+            font-weight: 400 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="inbox t14">
+        <div id="inbox-preview" class="message">
+            <div class="sender t14">{{session['sender_name']}}</div>
+            <div style="overflow: hidden;" class="subject t14">{{session['subject']}}</div>
+            <div class="preloader t12">
+                {% if session['pre_text_loader'] %}
+                    {{ session['pre_text_loader'] }}
+                {% else %}
+                    {{ message[:50] }}
+                {% endif %}
+            </div>            
+        </div>
+
+        <div class="message">
+            <div class="sender t12">Zishan Hayath</div>
+            <div class="subject t12">Project Update</div>
+            <div class="preloader t12">Hi Zishan, Kindly send project update...</div>
+        </div>
+
+        <div class="message">
+            <div class="sender t12">Peter Jhonson</div>
+            <div class="subject t12">Weekend Plans</div>
+            <div class="preloader t12">Hi Peter, What you doing this Weekend?...</div>
+        </div>
+    </div>
+    <script>
+        // Initialize the preview message with default values
+        var previewMessage = document.getElementById('inbox-preview');
+        var defaultValues = {
+            senderName: previewMessage.querySelector('.sender').textContent,
+            subject: previewMessage.querySelector('.subject').textContent,
+            preloader: previewMessage.querySelector('.preloader').textContent
+        };
+
+        // Function to update the preview message in the inbox
+        function updatePreview(inputField) {
+            // Use the default value if the input is empty
+            var value = inputField.value.trim() !== '' ? inputField.value : getDefaultValues()[inputField.id];
+
+            // Update the corresponding value based on the input field
+            switch (inputField.id) {
+                case 'sender_name':
+                    defaultValues.senderName = value;
+                    break;
+                case 'subject_line':
+                    defaultValues.subject = value;
+                    break;
+                case 'pre_text_loader':
+                    defaultValues.preloader = value;
+                    break;
+            }
+
+            // Update the preview message
+            previewMessage.querySelector('.sender').textContent = truncateText(defaultValues.senderName, 20);
+            previewMessage.querySelector('.subject').textContent = truncateText(defaultValues.subject, 38);
+            previewMessage.querySelector('.preloader').textContent = truncateText(defaultValues.preloader, 38);
+        }
+
+        // Function to get default values
+        function getDefaultValues() {
+            return {
+                sender_name: 'Sender Name',
+                subject_line: 'Subject',
+                pre_text_loader: 'Preloader'
+            };
+        }
+
+        // Function to truncate text and add "..." if it overflows
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
+        }
+
+        // Attach the updatePreview function to form field input events
+        document.getElementById('sender_name').addEventListener('input', function () {
+            updatePreview(this);
+        });
+
+        document.getElementById('subject_line').addEventListener('input', function () {
+            updatePreview(this);
+        });
+
+        document.getElementById('pre_text_loader').addEventListener('input', function () {
+            updatePreview(this);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

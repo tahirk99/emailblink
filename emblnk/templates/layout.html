@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CloudThat</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!--Fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <style type="text/css">
+        body {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 400;
+            box-sizing: border-box;
+        }
+
+        .sidebar {
+            height: 100vh;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: #009670;
+            border: solid 2px #009670;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div>
+                    <div class="logo">
+                        <!-- Sidebar Heading -->
+                        <a href="{{ url_for('main.home') }}">
+                            <h1 style="font-weight: 900; color: #009670" class="fs-4 py-2">Emailblink</h1>
+                        </a>
+                    </div>
+                    <hr style="margin: 0 0 1rem 0;">
+                    <!-- Sidebar Options -->
+                    <ul class="nav flex-column">
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'home' else '' }}">
+                            <a class="nav-link" href="{{ url_for('main.home') }}">
+                                <i class="fas fa-house"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'contacts' else '' }}">
+                            <a class="nav-link" href="{{ url_for('main.contacts') }}">
+                                <i class="fas fa-address-book"></i> Contacts
+                            </a>
+                        </li>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'lists' else '' }}">
+                            <a class="nav-link" href="{{ url_for('main.contact_lists') }}">
+                                <i class="fas fa-list"></i> Contact Lists
+                            </a>
+                        </li>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'campaigns' else '' }}">
+                            <a class="nav-link" href="{{ url_for('campaigns.campaigns') }}">
+                                <i class="fas fa-envelope"></i> Campaigns
+                            </a>
+                        </li>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'templates' else '' }}">
+                            <a class="nav-link" href="{{ url_for('campaigns.templates') }}">
+                                <i class="fas fa-file"></i> Templates
+                            </a>
+                        </li>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'analytics' else '' }}">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-chart-simple"></i> Analytics
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Settings Option at the Bottom -->
+                <div class="settings">
+                    <ul class="nav flex-column">
+                        <hr>
+                        <li class="nav-item {{ 'active-sidebar-menu' if active_page == 'settings' else '' }}">
+                            <a class="nav-link" href="{{ url_for('users.account') }}">
+                                <i class="fas fa-gear"></i> Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- Page Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Your page content goes here -->
+                <div class="mt-2 flash-message">
+                    {% with messages= get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{category}} alert-dismissible">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        {{message | safe}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                {% if error %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="">
+                    <strong class="t14">Oops Error..!</strong> <span class="t12"><br>{{error.error_name}}</span>
+                    </div>
+                    <div style="display: flex; gap: 2rem; align-items: center;">
+                    <a href="{{url_for('users.custom_error')}}"><button class="btn t12 btn-warning">View error details</button></a>
+                    <form action="{{ url_for('users.custom_error') }}" method="post">
+                        <!-- Add a hidden input field to hold the value of is_btn_click -->
+                        <input type="hidden" name="is_btn_click" value="true">
+                        <!-- Add other form fields here -->
+                        <button type="submit" class="btn btn-secondary t12">Got it close.</button>
+                    </form>
+                    </div>
+                    <button type="button" class="btn-close t14" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+    
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/Js/custom.js"></script>
+</body>
+
+</html>

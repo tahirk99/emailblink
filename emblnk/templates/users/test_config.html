@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '/users/settings.html' %}
+
+<div class="col">
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <div>
+            <a href="{{ url_for('users.senders')}}"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div>
+            <h6>Test Sender Configuration - {{sender.sender_name}}</h6>
+        </div>
+    </div>
+    <div class="content-section">
+        <form action="{{url_for('users.test_configuration', sender_id=sender.id)}}" method="post">
+            <div class="mb-3">
+                <input type="email" class="form-control" name="receiver_email"
+                    placeholder="Enter an email to send test mail">
+            </div>
+            <button type="submit" class="btn btn-secondary">Send test email</button>
+        </form>
+    </div>
+
+    <div>
+        <p class="{{'text-success' if test_response else 'text-danger'}}">{{ test_response[1] }}</p>
+        <span style="font-size: 14px;" class="t12">{{ test_response[2] }}</span>
+    </div>
+
+</div>
+
+{% endblock content %}

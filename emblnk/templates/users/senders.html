@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '/users/settings.html' %}
+
+<div class="col">
+    <div class="header-container">
+        <div>
+            <h6>Senders</h6>
+            <span>Sender will be used to send campaigns from, you can add/manage senders here</span>
+        </div>
+        <a href="{{ url_for('users.configuration') }}"><button class="btn btn-secondary btn-small">Add
+                sender</button></a>
+    </div>
+    <hr class="heading-line">
+    <div>
+        {% if senders %}
+        {% for sender in senders %}
+        <div class="white-container sender-details">
+            <strong>{{sender.email}}</strong><br>
+            <span class="t12"><strong>Platform:</strong> {{sender.platform}} <span class="link-separator"> </span>
+                <strong class="ms-1"> Host: </strong>{{ sender.host }} <span class="link-separator"> </span> <strong class="ms-1">Port:</strong>
+                {{sender.port}}</span>
+
+            <div class="action-links mt-2">
+                <button class="t12 plain-btn test-connection"><a href="{{ url_for('users.test_configuration', sender_id=sender.id)}}">
+                    <i class="fa-solid fa-arrows-rotate"></i> Test Configuration</a>
+                </button>
+                <span class="link-separator"></span>
+                <button class="t12 plain-btn edit-sender"><a href="{{ url_for('users.edit_sender', sender_id=sender.id)}}">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="white-container">
+            <p>You don't have any senders yet. Create one to see here</p>
+            <a href="{{ url_for('users.configuration') }}"><button class="btn btn-secondary">Create sender</button></a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+{% endblock content %}

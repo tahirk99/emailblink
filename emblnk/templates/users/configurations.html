@@ -1,0 +1,150 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '/users/settings.html' %}
+
+<div class="col">
+<div class="content-section">
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <div>
+            <a href="{{ url_for('users.senders')}}"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div>
+            <h6>Sender Configuration</h6>
+        </div>
+    </div>
+    <span class="t12">Refer your ESP provider for details on host, port & password.</span>
+    <hr class="heading-line">
+      <form id="configuration-form" style="font-size: 12px;" method="POST" action="" enctype="multipart/form-data">
+          {{ form.hidden_tag() }} 
+          <fieldset class="form-group">
+              <div class="form-group row">
+                <div class="col-md-6">
+                    {{ form.platform.label(class="form-control-label")}}
+                    {% if form.platform.errors %}
+                        {{ form.platform(class="form-control form-control-md is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.platform.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.platform(class="form-control form-control-md")}}
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    {{ form.email.label(class="form-control-label")}}
+                  {% if form.email.errors %}
+                      {{ form.email(class="form-control form-control-md is-invalid")}}
+                      <div class="invalid-feedback">
+                          {% for error in form.email.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.email(class="form-control form-control-md")}}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    {{ form.username.label(class="form-control-label")}}
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control form-control-md")}}
+                {% endif %}
+                </div>
+              <div class="col-md-6">
+                {{ form.host.label(class="form-control-label")}}
+                {% if form.host.errors %}
+                    {{ form.host(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.host.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.host(class="form-control form-control-md")}}
+                {% endif %}
+            </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    {{ form.port.label(class="form-control-label")}}
+                {% if form.port.errors %}
+                    {{ form.port(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.port.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.port(class="form-control form-control-md")}}
+                {% endif %}
+                </div>
+            <div class="col-md-6">
+                {{ form.sender_name.label(class="form-control-label")}}
+                {% if form.sender_name.errors %}
+                    {{ form.sender_name(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.sender_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.sender_name(class="form-control form-control-md")}}
+                {% endif %}
+            </div>
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label")}}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-md")}}
+                {% endif %}
+            </div>
+	<hr class="heading-line">
+            <strong>Enter Test Email</strong><br>
+            <span class="t12">A test email will be sent to below address</span>
+            <div class="form-group">
+                {{ form.test_email.label(class="form-control-label")}}
+                {% if form.test_email.errors %}
+                    {{ form.test_email(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.test_email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.test_email(class="form-control form-control-md")}}
+                {% endif %}
+            </div>
+          </fieldset>
+          <div style="color: red;" id="error-messages"></div>
+          <div class="form-group mt-3">
+              {{ form.submit(class="btn btn-secondary") }}
+          </div>
+      </form>
+      {% if not test_response[0] %}
+      <div id="response">
+          <span class="text-danger">{{ test_response[1] }}</span><br>
+          <span class="t12">{{ test_response[2] }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+</div>
+</div>
+</div>
+{% endblock %}

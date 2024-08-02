@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+        <!-- First Column (70% width) -->
+
+        <div style="background-color: white; border-radius: 5px; height: 100%;" class="col-md-8">
+            <h5 class="mt-2">Message</h5>
+            <hr class="heading-line">
+            <div style="max-width: 80%; font-size: 14px;">
+                {{ campaign.message | safe }}
+            </div>
+        </div>
+        <!-- Second Column (30% width) -->
+        <div class="col-md-4">
+            <!-- Campaign details -->
+            <h5 class="mt-2">Campaign Details</h5>
+            <hr class="heading-line">
+            <p><strong>From Address:</strong> {{ campaign.sender.email }}</p>
+            <p><strong>Subject:</strong> {{ campaign.subject }}</p>
+            {% if campaign.pre_loader %}
+            <p><strong>Preloader:</strong> {{ campaign.pre_loader }}</p>
+            {% endif %}
+            <p><strong>Lists:</strong>{% for list in lists %}
+                {{ list.list_name }}</p>
+                {% endfor %}
+            <!-- Add more details as needed -->
+        </div>
+    </div>
+
+{% endblock content %}

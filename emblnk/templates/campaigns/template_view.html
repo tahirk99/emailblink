@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template View - {{temp_name}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* The device with borders */
+.tablet {
+    position: relative;
+    border: 16px #e9e9fd solid;
+    border-top-width: 60px;
+    border-radius: 36px;
+    padding: 2rem;
+  }
+  /* The horizontal line on the top of the device */
+  .tablet:before {
+    content: 'Emailblink';
+    font-family: "Poppins";
+    font-weight: 600;
+    font-size: 24px;
+    display: block;
+    width: 60px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+  }
+  /* The screen (or content) of the device */
+    </style>
+</head>
+<body>
+    <div class="tablet">
+        <div class="content">
+            {{ message | safe }}
+        </div>
+      </div>
+
+</body>
+</html>

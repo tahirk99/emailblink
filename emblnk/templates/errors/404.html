@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <h1>Oops. 404 page not found</h1>
+        <p>Page does not exist or have moved to a different location. 
+            <a href="{{ url_for('main.home') }}">Home</a></p>
+    </div>
+{% endblock content %}

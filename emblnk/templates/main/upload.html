@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div>
+    <div class="white-container">
+        <h4>Upload Contacts</h4>
+        <hr class="heading-line">
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <div class="form-group">
+              {{ form.contacts.label() }}
+              <br>
+              {{ form.contacts(class="form-control-file") }}
+              <br>
+              {% if form.contacts.errors %}
+                  {% for error in form.contacts.errors %}
+                      <span class="text-danger">{{ error }}</span>
+                  {% endfor %}
+              {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="form-group mt-2">
+            {{ form.submit(class="btn btn-secondary") }}
+        </div>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="header-container">
+    <div>
+        <h2>Contact Lists</h2>
+        <span>Lists help you manage your contacts efficiently, it's like a folder within which you can store your
+            contacts</span>
+    </div>
+    <button type="button" class="btn btn-secondary button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+            class="fa-solid fa-plus"></i> Create List</button>
+</div>
+<hr class="heading-line">
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            {{ form.name.label(class="form-control-label")}}
+                            {% if form.name.errors %}
+                            {{ form.name(class="form-control form-control-md is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.name(class="form-control form-control-md")}}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <div class="form-group mt-3">
+                        {{ form.submit(class="btn btn-secondary") }}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="white-container">
+    {% if lists %}
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>List Name</th>
+                <th>Total Contacts</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for list in lists %}
+            <tr>
+                <td><a href="{{ url_for('main.list_contacts', slug=list.slug) }}">{{ list.list_name }}</a></td>
+                <td>{{list.contacts|length}}</td>
+                <td>19-March-23</td>
+                <td>
+                    <button class="t12 plain-btn" href="{{ url_for('campaigns.templates') }}">
+                        <i class="fa-regular fa-pen-to-square"></i> Edit
+                    </button>
+
+                    <button class="t12 plain-btn delete-list-btn" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-list-id="{{ list.list_id }}" data-list-name="{{ list.list_name }}">
+                        <i class="fa-regular fa-trash-can text-danger"></i> Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You don't have any lists yet create one</p>
+</div>
+{% endif %}
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="list-delete-modal-body" class="modal-body">
+                ""
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.delete-list-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            var listId = this.getAttribute('data-list-id');
+            var listName = this.getAttribute('data-list-name');
+            document.getElementById('list-delete-modal-body').textContent = `Are you sure you want to delete "${listName}" list?`;
+            document.getElementById('confirmDelete').addEventListener('click', function () {
+                // Redirect to the delete_list route with list_id query parameter
+                window.location.href = "{{ url_for('main.delete_list') }}?list_id=" + listId;
+            });
+        });
+    });
+
+</script>
+
+{% endblock content %}

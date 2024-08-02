@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div>
+    <div class="content-section">
+        <h3>Contact Details</h3>
+
+        <p><b>Email:</b> {{ contact.email }}</p>
+        <p><b>First Name:</b> {{ contact.first_name }}</p>
+        <p><b>Last Name:</b> {{ contact.last_name }}</p>
+        <p><b>Company:</b> {{ contact.company }}</p>
+        </div>
+
+<div class="campaigns-and-interaction">
+    <strong>Campaigns</strong><hr>
+    {% for campaign, tracking in interactions.items() %}
+    <a href="{{url_for('campaigns.campaign_details', campaign_id=campaign.campaign.campaign_id)}}"><strong>{{ campaign.campaign.campaign_name }} </strong></a>
+        {% for actions in tracking %}
+        <p> {{actions.event_name}} <small>at {{actions.event_time.strftime("%d-%b-%y - %H:%M:%S") }} </small></p>
+        {% endfor %}
+    {% endfor %}
+</div>
+    {% endblock content %}

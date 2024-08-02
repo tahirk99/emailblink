@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+<h2 class="mt-2">Dashboard</h2>
+<hr class="heading-line">
+<div class="white-container">
+    <h5 style="color: lightgray;" mb-2>Total Metrics</h5>
+    <hr class="heading-line">
+    <div class="row mt-2">
+        <div class="col metrics-container black-bd" id="total-contacts">
+            <div class="icon-container">
+                <i class="fa-regular fa-address-card"></i>
+            </div>
+            <div class="numbers">
+                <h4>{{total_contacts}}</h4>
+                <span>Contacts</span>
+            </div>
+        </div>
+        <div class="col metrics-container black-bd" id="total-campaigns">
+            <div class="icon-container">
+                <i class="fa-regular fa-address-card"></i>
+            </div>
+            <div class="numbers">
+                <h4>{{total_campaigns}}</h4>
+                <span>Campaigns</span>
+            </div>
+        </div>
+        <div class="col metrics-container black-bd" id="total-opens">
+            <div class="icon-container">
+                <i class="fa-regular fa-envelope-open"></i>
+            </div>
+            <div class="numbers">
+                <h4>#Na</h4>
+                <span>Opens</span>
+            </div>
+        </div>
+        
+        <div class="col metrics-container black-bd" id="total-clicks">
+            <div class="icon-container">
+                <i class="fa-regular fa-hand-pointer"></i>
+            </div>
+            <div class="numbers">
+                <h4>#Na</h4>
+                <span>Clicks</span>
+            </div>
+        </div>
+        <div class="col metrics-container black-bd" id="total-unsubscribes">
+            <div class="icon-container">
+                <i class="fa-regular fa-circle-xmark"></i>
+            </div>
+            <div class="numbers">
+                <h4>{{total_unsubcribes}}</h4>
+                <span>Unsubscribes</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="white-container mt-4">
+    <div class="header-container">
+        <h5 style="color: lightgray;" mb-2>Recent Campaigns</h5>
+        <a href="{{ url_for('campaigns.campaigns') }}"><button class="btn btn-secondary t12">All Campaigns</button></a>
+    </div>
+    {% if total_campaigns != 0 %}
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Campaign</th>
+                <th>Status</th>
+                <th>Total Contacts</th>
+                <th>Unsubscribes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns[:5] %}
+            <tr>
+                <td>{{ campaign.campaign_name }}</td>
+                <td>{{ campaign.campaign_status }}</td>
+                <td>80</td>
+                <td>11</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You don't have any campaigns yet. <a style="color: #009670;" href="{{url_for('campaigns.new_campaign')}}">Click
+            here</a> to create one</p>
+    {% endif %}
+</div>
+
+
+{% endblock content %}

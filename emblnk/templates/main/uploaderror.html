@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div>
+    <div class="white-container">
+        <h4 class="text-danger">Oops.. Error occured while uploading.</h4>
+        <p class="small">Hint: <span class="t12">Copy paste below error details in ChatGPT/bard to understand better</span> </p>
+        <p>{{error_details}}</p>
+        <a href="{{ url_for('main.upload') }}"><button class="btn btn-secondary">Try again</button></a>
+    </div>
+
+{% endblock content %}

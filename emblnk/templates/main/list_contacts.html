@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="header-container">
+    <h4>Contacts in {{ list_name }} </h4>
+</div>
+<hr class="heading-line">
+
+
+<div class="white-container" style="margin: 0 0 5rem 0; max-height: 40rem; overflow-y: auto;">
+    <table id="example" class="table table-striped table-bordered" style="width:100%;">
+        <thead style="position: sticky; top: 0;">
+            <tr>
+		        <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+            <tr>
+		<td><a href="{{ url_for('main.contact_details', contact_id=contact.contact_id) }}">{{ contact.email }}</a></td>
+                <td>{{ contact.first_name }}</td>
+                <td>{{ contact.last_name }}</td>
+                <td>{{ contact.company }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+{% endblock content %}

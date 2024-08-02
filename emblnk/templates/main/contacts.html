@@ -1,0 +1,363 @@
+{% extends 'layout.html' %}
+{% block content %}
+<style>
+    .bg-success {
+        background-color: #04AE84 !important;
+    }
+
+    table #sticky-table-header {
+        position: sticky;
+        top: 0;
+        /* Stick the header to the top of the viewport */
+        background-color: lightgray !important;
+        /* Optional: Set background color */
+        z-index: 1;
+        /* Ensure the header appears above other content */
+    }
+</style>
+
+<div class="header-container">
+    <div>
+        <h2>Contacts</h2>
+        <span>You can add/upload manage your contacts here</span>
+    </div>
+    <div>
+        <a href="{{ url_for('main.upload') }}"><button class="btn btn-secondary"><i class="fa-solid fa-upload"></i>
+                Upload File</button></a>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                class="fa-solid fa-plus"></i> Add Contact</button>
+    </div>
+</div>
+<hr class="heading-line">
+
+<!--Add Contact Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-contact-form" method="POST" action="">
+                    {{ add_contact_form.hidden_tag() }}
+                    <div style="color: red;" id="error-messages"></div>
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            {{ add_contact_form.email.label(class="form-control-label")}}
+                            {% if add_contact_form.email.errors %}
+                            {{ add_contact_form.email(class="form-control form-control-md is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in add_contact_form.email.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ add_contact_form.email(class="form-control form-control-md")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ add_contact_form.first_name.label(class="form-control-label")}}
+                            {% if add_contact_form.first_name.errors %}
+                            {{ add_contact_form.first_name(class="form-control form-control-md is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in add_contact_form.first_name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ add_contact_form.first_name(class="form-control form-control-md")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ add_contact_form.last_name.label(class="form-control-label")}}
+                            {% if add_contact_form.last_name.errors %}
+                            {{ add_contact_form.last_name(class="form-control form-control-md is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in add_contact_form.last_name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ add_contact_form.last_name(class="form-control form-control-md")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ add_contact_form.company_name.label(class="form-control-label")}}
+                            {% if add_contact_form.company_name.errors %}
+                            {{ add_contact_form.company_name(class="form-control form-control-md is-invalid")}}
+                            <div class="invalid-feedback">
+                                {% for error in add_contact_form.company_name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ add_contact_form.company_name(class="form-control form-control-md")}}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <div class="form-group mt-3">
+                        {{ add_contact_form.submit(class="btn btn-secondary") }}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("add-contact-form");
+        const errorMessages = document.getElementById("error-messages");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(form);
+            fetch("{{ url_for('main.contacts') }}", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json()) // Assuming your route returns JSON
+                .then(data => {
+                    if (data.errors) {
+                        // Display validation errors
+                        errorMessages.innerHTML = data.errors.join("<br>");
+                    } else {
+                        window.location.href = "/contacts";
+                        errorMessages.innerHTML = "";
+                        // Close the modal or perform other actions
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    });
+</script>
+
+{% if contacts_in_account %}
+<div class="white-container" style="margin: 2rem 0 5rem 0; padding: 2rem;">
+    <div class="mb-3">
+        <form method="GET" action="{{ url_for('main.contacts') }}">
+            <div class="row">
+                <div class="col-md-3">
+                    <select class="form-select" name="filter_field">
+                        <option value="email" selected>Email</option>
+                        <option value="first_name">First Name</option>
+                        <option value="last_name">Last Name</option>
+                        <option value="company">Company</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="filter_operator">
+                        <option value="contains" selected>Contains</option>
+                        <option value="equals">Equals</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="filter_value" placeholder="Enter value">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-secondary">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form id="bulk-action-form" method="POST" action="{{ url_for('main.apply_bulk_actions') }}">
+        <div class="mb-3 d-flex" id="bulkactiondiv" style="display: none !important;">
+            <div class="flex-grow-1">
+                <select class="form-select" id="bulk-action" name="bulk_action">
+                    <option value="default" selected disabled>Select an action</option>
+                    <option value="move_to_list">Move to List</option>
+                    <option value="delete">Delete Selected</option>
+                    <option value="subscribe">Subscribe Selected</option>
+                    <option value="unsubscribe">Unsubscribe Selected</option>
+                </select>
+            </div>
+
+            <div class="flex-grow-1 ms-2" id="listDropdown" style="display: none;">
+                <select class="form-select" id="choose-list" name="list_name">
+                    <option value="default" selected disabled>Select a list</option>
+                    {% for list in lists %}
+                    <option value="{{list.list_id}}">{{ list.list_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-secondary ms-2">Apply Bulk Action</button>
+        </div>
+
+        <script>
+            // Move to list dropdown visiblity
+            document.getElementById('bulk-action').addEventListener('change', function () {
+                var listDropdown = document.getElementById('listDropdown');
+
+                if (this.value === 'move_to_list') {
+                    listDropdown.style.display = 'block';
+                } else {
+                    listDropdown.style.display = 'none';
+                }
+            });
+        </script>
+        <input type="hidden" id="selected-contact-ids" name="selected_contact_ids">
+	<hr>
+
+        <div style="height: 30rem; overflow: auto;">
+            <table id="example" class="table-striped table table-bordered" style="width:100%; border-radius: 50px;">
+                <thead>
+                    <tr style="background-color: lightgray !important" id="sticky-table-header">
+                        <th>
+                            <input type="checkbox" id="select-all">
+                        </th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Company</th>
+                        <th>Subscribed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if contacts.total != 0 %}
+                    {% for contact in contacts.items %}
+                    <tr>
+                        <td>
+                            <input class="select-contact-id" type="checkbox" name="selected_contacts[]"
+                                value="{{ contact.contact_id }}">
+                        </td>
+                        <td><a href="{{ url_for('main.contact_details', contact_id=contact.slug) }}">{{ contact.email
+                                }}</a>
+                        </td>
+                        <td>{{ contact.first_name }}</td>
+                        <td>{{ contact.last_name }}</td>
+                        <td>{{ contact.company }}</td>
+                        <td>{% if contact.subscribed %}
+                            <span class="badge bg-success">Subscribed</span>
+                            {% else %}
+                            <span class="badge bg-danger">Unsubscribed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                        <span class="text text-center">No match found</span>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <div class="mt-2 pagination-container">
+        <p>Page {{ contacts.page }} of total: {{ contacts.total }} contacts</p>
+        {% for page_num in contacts.iter_pages() %}
+        {% if page_num %}
+        {% if contacts.page == page_num %}
+        <a class="btn btn-secondary mb-4 active-page-pagination"
+            href="{{ url_for('main.contacts', page=page_num) }}{% if filter_parameter %}&{{ filter_parameter }}{% endif %}">{{
+            page_num }}</a>
+        {% else %}
+        <a class="btn btn-secondary mb-4"
+            href="{{ url_for('main.contacts', page=page_num) }}{% if filter_parameter %}&{{ filter_parameter }}{% endif %}">{{
+            page_num }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+<script>
+    // Collect and Store all selected contacts id's
+    function updateSelectedContactIds() {
+        var bulkActionDiv = document.getElementById('bulkactiondiv');
+        var contactCheckboxes = document.querySelectorAll('.select-contact-id');
+        var selectAllCheckbox = document.getElementById('select-all');
+        var selectedContactIdsInput = document.getElementById('selected-contact-ids');
+
+        // Collect selected contact IDs
+        var selectedContactIds = [...contactCheckboxes]
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value)
+            .join(',');
+
+        selectedContactIdsInput.value = selectedContactIds;
+
+        if (selectAllCheckbox.checked || selectedContactIds !== '') {
+            bulkActionDiv.style.display = 'block';
+        } else if (![...contactCheckboxes].some(checkbox => checkbox.checked)) {
+            bulkActionDiv.style.display = 'none';
+        }
+    }
+
+    document.getElementById('select-all').addEventListener('change', function () {
+        var contactCheckboxes = document.querySelectorAll('.select-contact-id');
+        contactCheckboxes.forEach(checkbox => (checkbox.checked = this.checked));
+        updateSelectedContactIds();
+    });
+
+    var contactCheckboxes = document.querySelectorAll('.select-contact-id');
+    contactCheckboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            updateSelectedContactIds();
+        });
+    });
+
+
+    // select all
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('select-all');
+        const checkboxes = document.querySelectorAll('input[name="selected_contacts[]"]');
+
+        selectAllCheckbox.addEventListener('change', function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+    });
+
+    // Bulkactiondiv visiblity select-all
+    document.getElementById('select-all').addEventListener('change', function () {
+        var bulkActionDiv = document.getElementById('bulkactiondiv');
+        var contactCheckboxes = document.querySelectorAll('.contact-checkbox');
+
+        if (this.checked || [...contactCheckboxes].some(checkbox => checkbox.checked)) {
+            bulkActionDiv.style.display = 'block';
+        } else {
+            bulkActionDiv.style.display = 'none';
+        }
+    });
+
+    // Bulkactiondiv visiblity individual select
+    var contactCheckboxes = document.querySelectorAll('.select-contact-id');
+    contactCheckboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var bulkActionDiv = document.getElementById('bulkactiondiv');
+            var selectAllCheckbox = document.getElementById('select-all');
+
+            if (this.checked || selectAllCheckbox.checked) {
+                bulkActionDiv.style.display = 'block';
+            } else if (![...contactCheckboxes].some(checkbox => checkbox.checked)) {
+                bulkActionDiv.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+{% else %}
+
+<div class="white-container">
+    <p>You don't have any contacts yet</p>
+</div>
+{% endif %}
+{% endblock content %}

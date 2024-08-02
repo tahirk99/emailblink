@@ -1,0 +1,374 @@
+:root {
+    --bg: #f4f6f7;
+    --primary: #009670;
+    --btn-hover: 
+  }
+
+.account-img {
+height: 125px;
+width: 125px;
+margin-right: 20px;
+margin-bottom: 16px;
+}
+.account-heading {
+font-size: 2.5rem;
+}
+
+.campaigns-container{
+    background-color: white;
+    border-radius: 2px;
+    padding: 2rem;}
+
+.campaigns-active-tab{
+    font-weight: 900;
+    background-color: var(--bg) !important;
+}
+
+.campaigns-tab li:hover{
+    font-weight: 600;
+    color: black !important;
+}
+
+.campaigns-tab a:hover{
+    font-weight: 600;
+    color: black !important;
+}
+
+.campaigns-tab input{
+    border-radius: 10px 0 0 10px !important;
+}
+
+.campaigns-active-tab a{
+    font-weight: 900 !important;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+main {
+    background: var(--bg);
+    color: #24292e;
+}
+
+td, th{
+    font-size: 14px !important;
+}
+
+.sidebar {
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky !important;
+    top: 0;
+}
+.active-sidebar-menu{
+    background-color: white;
+    border-radius: 5px;
+    border: solid 2px var(--primary);
+}
+.sidebar .nav-item :hover{
+    background-color: var(--bg) !important;
+    color: black;
+    border-radius: 5px;
+}
+
+.container-fluid a{
+    color: black;
+}
+.sidebar i{
+    font-size: 1.2rem !important;
+    color: var(--primary);
+}
+
+.header-container h1, h2, h3, h4, h6{
+    font-weight: 900 !important;
+    margin-top: 0.5rem !important;
+    color: #363636 !important;
+}
+.btn-secondary:hover{
+    background-color: #006e53 !important;
+    border: 2px solid #006e53 !important;
+}
+.settings {
+    margin-bottom: 20px; /* Adjusted margin at the bottom */
+    margin-top: auto;
+    box-sizing: border-box;
+}
+.t14{
+    font-size: 14px !important;
+}
+.t12{
+    font-size: 12px !important;
+}
+.logo{
+    margin-left: 10px;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.white-container{
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0px 6px 18px rgb(0 0 0 / 9%);
+}
+.white-container i{
+    color: var(--primary);
+}
+.btn-white-icon{
+    color: white !important;
+}
+.g-text{
+    color: darkgray !important;
+}
+
+.action-links {
+    display: flex;
+    gap: 10px; /* Adjust the space between links */
+}
+
+.link-separator {
+    border-right: 1px solid #ccc; /* Adjust the color and style of the line */
+    height: 1rem; /* Adjust the height of the line */ /* Adjust the space on either side of the line */
+}
+
+.black-bd{
+    border: 2px solid black;
+    border-radius: 10px;
+}
+/*Dashboard CSS*/
+.metrics-container{
+    display: flex;
+    padding: 0.5rem;
+    margin: 1rem;
+    border-radius: 10px;
+    align-items: center;
+    gap: 1rem;
+}
+.metrics-container i{
+    font-size: 3rem;
+}
+.metrics-container span{
+    font-weight: 600;
+}
+#total-opens{
+    background-color: rgb(226, 255, 226) !important;
+}
+#total-opens i{
+    color: rgb(133, 218, 133);
+}
+#total-clicks{
+    background-color: rgb(170, 200, 255);
+}
+#total-clicks i{
+    color: rgb(98, 148, 255);
+}
+#total-unsubscribes{
+    background-color: rgb(255, 211, 211);;
+}
+#total-unsubscribes i{
+    color: rgb(252, 97, 97);;
+}
+#total-contacts{
+    background-color: rgb(238, 212, 250);
+}
+#total-contacts i{
+    color: rgb(221, 154, 252);   
+}
+#total-campaigns{
+    background-color: rgb(212, 244, 250);
+}
+#total-campaigns i{
+    color: rgb(130, 203, 216);   
+}
+.settings-menu li:hover{
+    font-weight: 600;
+}
+.settings-menu .nav-item:hover{
+    font-weight: 600;
+    color: black !important;
+}
+.settings-menu-active{
+    font-weight: 600;
+}
+a{
+    text-decoration: none;
+}
+.active-settings-menu{
+    font-weight: 600;
+}
+form label{
+    font-size: 14px;
+}
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0;
+}
+
+.header-container span{
+    font-size: 12px;
+    color: gray;
+    padding: 0 !important;
+}
+
+.heading-line{
+    color:#b1b1fd !important;
+}
+
+.inbox-container{
+    padding: 1rem;
+}
+
+/* The device with borders */
+.tablet {
+    position: relative;
+    border: 16px var(--bg) solid;
+    border-top-width: 60px;
+    border-bottom-width: 60px;
+    border-radius: 20px;
+  }
+  
+  /* The horizontal line on the top of the device */
+  .tablet:before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 5px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 10px;
+  }
+  
+  /* The circle on the bottom of the device */
+  .tablet:after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    left: 50%;
+    bottom: -65px;
+    transform: translate(-50%, -50%);
+    background: #333;
+    border-radius: 50%;
+  }
+  
+  /* The screen (or content) of the device */
+  .tablet .content {
+
+    width: 300px;
+    height: 350px;
+  }
+
+
+#signUpForm .form-header {
+    gap: 5px;
+    text-align: center;
+    font-size: .9em;
+}
+#signUpForm .form-header .stepIndicator {
+    position: relative;
+    flex: 1;
+    padding-bottom: 30px;
+}
+#signUpForm .form-header .stepIndicator.active {
+    font-weight: 600;
+}
+#signUpForm .form-header .stepIndicator.finish {
+    font-weight: 600;
+    color: #009688;
+}
+#signUpForm .form-header .stepIndicator::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 9;
+    width: 20px;
+    height: 20px;
+    background-color: #d5efed;
+    border-radius: 50%;
+    border: 3px solid #ecf5f4;
+}
+#signUpForm .form-header .stepIndicator.active::before {
+    background-color: #a7ede8;
+    border: 3px solid #d5f9f6;
+}
+#signUpForm .form-header .stepIndicator.finish::before {
+    background-color: #009688;
+    border: 3px solid #b7e1dd;
+}
+#signUpForm .form-header .stepIndicator::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 100%;
+    height: 3px;
+    background-color: #f3f3f3;
+}
+#signUpForm .form-header .stepIndicator.active::after {
+    background-color: #a7ede8;
+}
+#signUpForm .form-header .stepIndicator.finish::after {
+    background-color: #009688;
+}
+#signUpForm .form-header .stepIndicator:last-child:after {
+    display: none;
+}
+
+#signUpForm .step {
+  display: none;
+}
+#signUpForm .form-footer{
+    overflow:auto;
+    gap: 20px;
+}
+#signUpForm .form-footer button{
+    background-color: #009688;
+    border: 1px solid #009688 !important;
+    color: #ffffff;
+    border: none;
+    padding: 13px 30px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin-top: 5px;
+}
+#signUpForm .form-footer button:hover {
+  opacity: 0.8;
+}
+
+#signUpForm .form-footer #prevBtn {
+    background-color: #fff;
+    color: #009688;
+}
+
+.btn-small{
+    font-size: 14px !important;
+    padding: 5px !important;
+}
+.plain-btn{
+    border: none !important;
+    background-color: white !important;
+}
+
+
+.activ-paginiation-container{
+    margin-top: 1rem;
+}
+.active-page-pagination{
+    color: white !important;
+    font-weight: 600 !important;
+}

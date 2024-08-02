@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="header-container">
+    <div>
+        <h2>Campaigns</h2>
+        <span>Create, send or schedule a campaign from here</span>
+    </div>
+    <form action="{{ url_for('campaigns.new_campaign') }}" method="post">
+        <!-- Add a hidden input field to hold the value of is_btn_click -->
+        <input type="hidden" name="is_btn_click" value="true">
+        <!-- Add other form fields here -->
+        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-plus"></i> Create Campaign</button>
+    </form>
+</div>
+<hr class="heading-line">
+
+{% macro status_color(status) %}
+{% if status == 'Sent' %}
+bg-success
+{% elif status == 'Draft' %}
+bg-secondary
+{% elif status == 'Scheduled' %}
+bg-primary
+{% elif status == 'Sending' %}
+bg-warning
+{% endif %}
+{% endmacro %}
+
+
+{% if is_campaign %}
+
+<div class="row mb-4">
+    <div class="col input-group">
+        <form action="{{url_for('campaigns.campaigns')}}" method="GET">
+            <div style="display: flex; align-items: center;">
+                <div>
+                </div>
+                <div class="">
+                    <select name="show" class="form-select campaigns-dropdown" id="show-campaigns">
+                        <option value="All" selected>All</option>
+                        <option value="Sent">Sent</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Scheduled">Scheduled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary mx-2">Show</button>
+            </div>
+        </form>
+    </div>
+    <div class="col input-group">
+        <div>
+        </div>
+        <form style="display: flex; margin-left: auto;" action="{{url_for('campaigns.campaigns')}}" method="GET">
+            <div id="search-autocomplete" class="form-outline" data-mdb-input-init>
+                <input name="query" type="search" id="form1" class="form-control" />
+            </div>
+            <div>
+                <button type="submit" class="btn btn-secondary" data-mdb-ripple-init>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if not campaigns.total ==0 %}
+{% for campaign in campaigns.items %}
+<div class="white-container">
+    <h5>
+        <a style="text-decoration: none;"
+            href="{{ url_for('campaigns.campaign_details', campaign_id=campaign.campaign_id)}}">
+            {{ campaign.campaign_name }}
+        </a>
+    </h5>
+
+    <span class="t12"><b>Sender:</b> {{campaign.sender.email}} | <b>Total Contacts:</b> #Na | <b>Status:</b>
+        <span class="badge {{ status_color(campaign.campaign_status) }} text-light">{{campaign.campaign_status}}</span>
+
+        <div class="action-links mt-2">
+            <a class="t12" href="{{ url_for('campaigns.campaign_details', campaign_id=campaign.campaign_id)}}">
+                <i class="fa-solid fa-eye"></i> View
+            </a>
+            <span class="link-separator"></span>
+            {% if campaign.campaign_status == 'Sent' %}
+            <a class="t12" href="#">
+                <i class="fa-solid fa-chart-simple"></i> Analytics
+            </a>
+            {% else %}
+            <a class="t12" href="#">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+            </a>
+            {% endif %}
+            <span class="link-separator"></span>
+            <a class="t12" href="#">
+                <i class="fa-solid fa-copy"></i> Duplicate
+            </a>
+        </div>
+</div>
+{% endfor %}
+<div class="mt-4 pagination-container">
+    <p>Page {{ campaigns.page }} of total: {{ campaigns.total }} campaigns</p>
+    {% for page_num in campaigns.iter_pages() %}
+    {% if page_num %}
+    {% if campaigns.page == page_num %}
+    <a class="btn btn-secondary mb-4 active-page-pagination"
+        href="{{ url_for('campaigns.campaigns', page=page_num) }}{% if filter_parameter %}&{{ filter_parameter }}{% endif %}">{{
+        page_num }}</a>
+    {% else %}
+    <a class="btn btn-secondary mb-4"
+        href="{{ url_for('campaigns.campaigns', page=page_num) }}{% if filter_parameter %}&{{ filter_parameter }}{% endif %}">{{
+        page_num }}</a>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+</div>
+{% else %}
+<span>No Match Found</span>
+{% endif %}
+
+{% else %}
+
+<div class="white-container">
+    <p>You don't have any campaigns yet. Create one to see here</p>
+</div>
+{% endif %}
+{% endblock content %}

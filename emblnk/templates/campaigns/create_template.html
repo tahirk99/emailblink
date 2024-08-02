@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+  <form method="post" action="{{url_for('campaigns.create_template')}}">
+    <div class="mb-3">
+      <label for="template_name" class="form-label">Template Name:</label>
+      <input class="form-control" name="template_name">
+    </div>
+    {% include 'campaigns/text-edioter.html' %}
+      <button type="submit" class="btn btn-secondary mt-2">Create Template</button>
+    </div>
+  </form>
+
+{% endblock %}

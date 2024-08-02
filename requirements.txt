@@ -1,0 +1,16 @@
+alembic==1.12.1
+beautifulsoup4==4.12.3
+Flask==2.3.2
+Flask_Bcrypt==1.0.1
+Flask_Login==0.6.2
+Flask_Mail==0.9.1
+Flask_Migrate==4.0.5
+flask_sqlalchemy==3.1.1
+flask_wtf==1.2.1
+itsdangerous==2.1.2
+pandas==2.0.2
+Pillow==9.5.0
+Pillow==10.2.0
+SQLAlchemy==2.0.19
+WTForms==3.1.2
+WTForms_SQLAlchemy==0.3
